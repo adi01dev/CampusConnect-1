@@ -1,0 +1,279 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CampusConnect ERP Design System - Modern meets Classic */
+
+@layer base {
+  :root {
+    /* Core Brand Colors - Academic Excellence Theme */
+    --background: 240 10% 98%;
+    --foreground: 210 15% 15%;
+
+    /* Card & Surface Colors */
+    --card: 0 0% 100%;
+    --card-foreground: 210 15% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 15% 15%;
+
+    /* Primary Brand - Deep Academic Blue */
+    --primary: 220 70% 45%;
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 220 70% 40%;
+    --primary-glow: 220 70% 65%;
+
+    /* Secondary - Warm Academic Gold */
+    --secondary: 45 95% 55%;
+    --secondary-foreground: 210 15% 15%;
+    --secondary-hover: 45 95% 50%;
+
+    /* Success - Academic Green */
+    --success: 140 70% 45%;
+    --success-foreground: 0 0% 100%;
+
+    /* Warning - Academic Orange */
+    --warning: 25 95% 55%;
+    --warning-foreground: 210 15% 15%;
+
+    /* Muted Tones */
+    --muted: 220 15% 96%;
+    --muted-foreground: 210 10% 45%;
+
+    --accent: 220 15% 96%;
+    --accent-foreground: 210 15% 15%;
+
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 15% 88%;
+    --input: 220 15% 88%;
+    --ring: 220 70% 45%;
+
+    --radius: 0.75rem;
+
+    /* Sidebar Academic Theme */
+    --sidebar-background: 220 25% 97%;
+    --sidebar-foreground: 210 15% 25%;
+    --sidebar-primary: 220 70% 45%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 15% 92%;
+    --sidebar-accent-foreground: 210 15% 25%;
+    --sidebar-border: 220 15% 88%;
+    --sidebar-ring: 220 70% 45%;
+
+    /* Custom Gradients - Enhanced Modern/Classic */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary-glow)) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary)) 0%, hsl(45 95% 65%) 100%);
+    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(220 70% 55%) 50%, hsl(var(--secondary)) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(var(--card)) 0%, hsl(220 15% 99%) 100%);
+    --gradient-premium: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(270 70% 55%) 50%, hsl(var(--secondary)) 100%);
+    --gradient-elegant: linear-gradient(to right, hsl(var(--primary) / 0.05), hsl(var(--secondary) / 0.05));
+
+    /* Shadows - Refined Depth */
+    --shadow-elegant: 0 10px 40px -10px hsl(var(--primary) / 0.25);
+    --shadow-card: 0 4px 20px -4px hsl(var(--primary) / 0.15);
+    --shadow-glow: 0 0 40px hsl(var(--primary-glow) / 0.4);
+    --shadow-soft: 0 2px 15px -3px hsl(220 15% 30% / 0.1);
+    --shadow-hover: 0 15px 50px -12px hsl(var(--primary) / 0.3);
+
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+
+  .dark {
+    --background: 220 25% 8%;
+    --foreground: 220 15% 92%;
+
+    --card: 220 25% 10%;
+    --card-foreground: 220 15% 92%;
+
+    --popover: 220 25% 10%;
+    --popover-foreground: 220 15% 92%;
+
+    --primary: 220 70% 60%;
+    --primary-foreground: 220 25% 8%;
+    --primary-hover: 220 70% 55%;
+    --primary-glow: 220 70% 75%;
+
+    --secondary: 45 95% 60%;
+    --secondary-foreground: 220 25% 8%;
+
+    --success: 140 70% 50%;
+    --success-foreground: 220 25% 8%;
+
+    --muted: 220 25% 15%;
+    --muted-foreground: 220 15% 65%;
+
+    --accent: 220 25% 15%;
+    --accent-foreground: 220 15% 92%;
+
+    --destructive: 0 75% 60%;
+    --destructive-foreground: 220 15% 92%;
+
+    --border: 220 25% 18%;
+    --input: 220 25% 18%;
+    --ring: 220 70% 60%;
+
+    --sidebar-background: 220 30% 6%;
+    --sidebar-foreground: 220 15% 85%;
+    --sidebar-primary: 220 70% 60%;
+    --sidebar-primary-foreground: 220 25% 8%;
+    --sidebar-accent: 220 25% 12%;
+    --sidebar-accent-foreground: 220 15% 85%;
+    --sidebar-border: 220 25% 18%;
+    --sidebar-ring: 220 70% 60%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-muted;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-primary rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary-hover;
+  }
+
+  /* Custom Animations */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes slideInRight {
+    from {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes pulse-glow {
+
+    0%,
+    100% {
+      box-shadow: 0 0 20px hsl(var(--primary-glow) / 0.3);
+    }
+
+    50% {
+      box-shadow: 0 0 30px hsl(var(--primary-glow) / 0.5);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+  }
+
+  .animate-slide-in-right {
+    animation: slideInRight 0.5s ease-out;
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  /* Glass Effect & Glassmorphism */
+  .glass-effect {
+    backdrop-filter: blur(10px);
+    background: hsl(var(--card) / 0.8);
+    border: 1px solid hsl(var(--border) / 0.5);
+  }
+
+  .glass-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  }
+
+  .glass-nav {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Hover Effects - Enhanced Elegance */
+  .hover-lift {
+    transition: var(--transition-smooth);
+  }
+
+  .hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+  }
+
+  .hover-glow:hover {
+    box-shadow: 0 0 25px hsl(var(--primary) / 0.5);
+  }
+
+  .hover-scale {
+    transition: var(--transition-smooth);
+  }
+
+  .hover-scale:hover {
+    transform: scale(1.02);
+  }
+
+  .hover-border {
+    position: relative;
+    transition: var(--transition-smooth);
+  }
+
+  .hover-border::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 2px;
+    background: var(--gradient-primary);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: var(--transition-smooth);
+    pointer-events: none;
+  }
+
+  .hover-border:hover::after {
+    opacity: 1;
+  }
+
+  /* Academic Pattern Background */
+  .academic-pattern {
+    background:
+      radial-gradient(circle at 25% 25%, hsl(var(--primary) / 0.03) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, hsl(var(--secondary) / 0.03) 0%, transparent 50%),
+      linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--muted) / 0.3) 100%);
+  }
+}

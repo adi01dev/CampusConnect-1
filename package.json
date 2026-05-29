@@ -1,0 +1,17 @@
+{
+    "name": "campus-connect-root",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "install:all": "npm install && cd frontend && npm install && cd ../backend && npm install && pip install -r ai_fastapi/app/requirements.txt",
+        "frontend": "cd frontend && npm run dev",
+        "backend": "cd backend && npm run dev",
+        "ai-backend": "cd backend/ai_fastapi && uvicorn app.main:app --port 8000 --reload",
+        "dev": "concurrently \"npm run backend\" \"npm run frontend\" \"npm run ai-backend\"",
+        "test:features": "npx --prefix backend ts-node backend/src/verify-features.ts",
+        "start": "npm run dev"
+    },
+    "devDependencies": {
+        "concurrently": "^8.2.2"
+    }
+}
