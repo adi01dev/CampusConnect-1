@@ -19,6 +19,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { BreadcrumbNav } from "@/components/ui/breadcrumb-nav";
 import {
   FileText,
@@ -59,6 +66,8 @@ const MoURequests = () => {
   });
 
   const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const isStudent = user.role === "Student";
+  const [selectedMoU, setSelectedMoU] = useState<MoU | null>(null);
 
   // 🔹 Fetch MoUs from backend
   const fetchMoUs = async () => {
@@ -149,20 +158,26 @@ const MoURequests = () => {
               <Building2 className="h-6 w-6 text-primary" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold">MoU Requests</h1>
+              <h1 className="text-3xl font-bold">
+                {isStudent ? "Signed Memorandums of Understanding" : "MoU Requests"}
+              </h1>
               <p className="text-muted-foreground">
-                Manage Memorandum of Understanding requests and collaborations
+                {isStudent 
+                  ? "Explore our institution's signed partnerships and collaborations" 
+                  : "Manage Memorandum of Understanding requests and collaborations"}
               </p>
             </div>
           </div>
-          <Button onClick={() => setShowNewRequest(!showNewRequest)}>
-            <Plus className="mr-2 h-4 w-4" />
-            New MoU Request
-          </Button>
+          {!isStudent && (
+            <Button onClick={() => setShowNewRequest(!showNewRequest)}>
+              <Plus className="mr-2 h-4 w-4" />
+              New MoU Request
+            </Button>
+          )}
         </div>
 
         {/* ---------- New Request Form ---------- */}
-        {showNewRequest && (
+        {showNewRequest && !isStudent && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             <Card>
               <CardHeader>
@@ -282,102 +297,216 @@ const MoURequests = () => {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <FileText className="h-5 w-5" />
-              MoU Status Overview
+              {isStudent ? "MoU Summary" : "MoU Status Overview"}
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid md:grid-cols-4 gap-4">
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                className="text-center p-4 bg-green-50/50 rounded-lg border border-green-200/50"
-              >
-                <CheckCircle className="h-8 w-8 text-green-600 mx-auto mb-2" />
-                <p className="text-2xl font-bold text-green-600">
-                  {moUs.filter((m) => m.status === "approved").length}
-                </p>
-                <p className="text-sm text-muted-foreground">Approved</p>
-              </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                className="text-center p-4 bg-orange-50/50 rounded-lg border border-orange-200/50"
-              >
-                <Clock className="h-8 w-8 text-orange-600 mx-auto mb-2" />
-                <p className="text-2xl font-bold text-orange-600">
-                  {moUs.filter((m) => m.status === "pending").length}
-                </p>
-                <p className="text-sm text-muted-foreground">Pending</p>
-              </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                className="text-center p-4 bg-blue-50/50 rounded-lg border border-blue-200/50"
-              >
-                <FileText className="h-8 w-8 text-blue-600 mx-auto mb-2" />
-                <p className="text-2xl font-bold text-blue-600">
-                  {moUs.filter((m) => m.status === "under_review").length}
-                </p>
-                <p className="text-sm text-muted-foreground">Under Review</p>
-              </motion.div>
-              <motion.div
-                whileHover={{ scale: 1.05 }}
-                className="text-center p-4 bg-gray-50/50 rounded-lg border border-gray-200/50"
-              >
-                <Users className="h-8 w-8 text-gray-600 mx-auto mb-2" />
-                <p className="text-2xl font-bold text-gray-600">{moUs.length}</p>
-                <p className="text-sm text-muted-foreground">Total MoUs</p>
-              </motion.div>
-            </div>
+            {isStudent ? (
+              <div className="grid md:grid-cols-2 gap-4">
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  className="text-center p-4 bg-green-50/50 rounded-lg border border-green-200/50"
+                >
+                  <CheckCircle className="h-8 w-8 text-green-600 mx-auto mb-2" />
+                  <p className="text-2xl font-bold text-green-600">
+                    {moUs.filter((m) => m.status === "approved").length}
+                  </p>
+                  <p className="text-sm text-muted-foreground">Active Partnerships</p>
+                </motion.div>
+                <motion.div
+                  whileHover={{ scale: 1.02 }}
+                  className="text-center p-4 bg-blue-50/50 rounded-lg border border-blue-200/50"
+                >
+                  <Building2 className="h-8 w-8 text-blue-600 mx-auto mb-2" />
+                  <p className="text-2xl font-bold text-blue-600">
+                    {moUs.filter((m) => m.status === "approved").length}
+                  </p>
+                  <p className="text-sm text-muted-foreground">Signed MoUs</p>
+                </motion.div>
+              </div>
+            ) : (
+              <div className="grid md:grid-cols-4 gap-4">
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  className="text-center p-4 bg-green-50/50 rounded-lg border border-green-200/50"
+                >
+                  <CheckCircle className="h-8 w-8 text-green-600 mx-auto mb-2" />
+                  <p className="text-2xl font-bold text-green-600">
+                    {moUs.filter((m) => m.status === "approved").length}
+                  </p>
+                  <p className="text-sm text-muted-foreground">Approved</p>
+                </motion.div>
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  className="text-center p-4 bg-orange-50/50 rounded-lg border border-orange-200/50"
+                >
+                  <Clock className="h-8 w-8 text-orange-600 mx-auto mb-2" />
+                  <p className="text-2xl font-bold text-orange-600">
+                    {moUs.filter((m) => m.status === "pending").length}
+                  </p>
+                  <p className="text-sm text-muted-foreground">Pending</p>
+                </motion.div>
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  className="text-center p-4 bg-blue-50/50 rounded-lg border border-blue-200/50"
+                >
+                  <FileText className="h-8 w-8 text-blue-600 mx-auto mb-2" />
+                  <p className="text-2xl font-bold text-blue-600">
+                    {moUs.filter((m) => m.status === "under_review").length}
+                  </p>
+                  <p className="text-sm text-muted-foreground">Under Review</p>
+                </motion.div>
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  className="text-center p-4 bg-gray-50/50 rounded-lg border border-gray-200/50"
+                >
+                  <Users className="h-8 w-8 text-gray-600 mx-auto mb-2" />
+                  <p className="text-2xl font-bold text-gray-600">{moUs.length}</p>
+                  <p className="text-sm text-muted-foreground">Total MoUs</p>
+                </motion.div>
+              </div>
+            )}
           </CardContent>
         </Card>
 
         {/* ---------- All MoUs List ---------- */}
         <Card className="glassmorphism">
           <CardHeader>
-            <CardTitle>All MoU Requests</CardTitle>
-            <CardDescription>Track and manage all partnership requests</CardDescription>
+            <CardTitle>{isStudent ? "Active Partnership Registry" : "All MoU Requests"}</CardTitle>
+            <CardDescription>
+              {isStudent ? "Browse active academic and industry agreements" : "Track and manage all partnership requests"}
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
-            {Array.isArray(moUs) && moUs.length > 0 ? (
-              moUs.map((mou, index) => (
-                <motion.div
-                  key={mou._id || index}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.05 * index }}
-                  whileHover={{ scale: 1.02 }}
-                  className="p-4 border rounded-lg bg-card/50 hover:shadow-md transition"
-                >
-                  <div className="flex items-start justify-between mb-3">
-                    <div>
-                      <h3 className="font-semibold text-lg">{mou.organization}</h3>
-                      <p className="text-sm text-muted-foreground">{mou.type}</p>
+            {(() => {
+              const displayedMoUs = isStudent ? moUs.filter(m => m.status === "approved") : moUs;
+              return Array.isArray(displayedMoUs) && displayedMoUs.length > 0 ? (
+                displayedMoUs.map((mou, index) => (
+                  <motion.div
+                    key={mou._id || index}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.05 * index }}
+                    whileHover={{ scale: 1.02 }}
+                    onClick={() => setSelectedMoU(mou)}
+                    className="p-4 border rounded-lg bg-card/50 hover:shadow-md transition cursor-pointer hover:border-primary/40 hover:bg-muted/10"
+                  >
+                    <div className="flex items-start justify-between mb-3">
+                      <div>
+                        <h3 className="font-semibold text-lg">{mou.organization}</h3>
+                        <p className="text-sm text-muted-foreground">{mou.type}</p>
+                      </div>
+                      {isStudent ? (
+                        <Badge className="text-green-600 border-green-200 bg-green-50">
+                          <CheckCircle className="h-4 w-4 mr-1 inline-block" />
+                          ACTIVE
+                        </Badge>
+                      ) : (
+                        <Badge className={getStatusColor(mou.status || "pending")}>
+                          {getStatusIcon(mou.status || "pending")}
+                          {mou.status?.replace("_", " ").toUpperCase() || "PENDING"}
+                        </Badge>
+                      )}
                     </div>
-                    <Badge className={getStatusColor(mou.status || "pending")}>
-                      {getStatusIcon(mou.status || "pending")}
-                      {mou.status?.replace("_", " ").toUpperCase() || "PENDING"}
-                    </Badge>
-                  </div>
 
-                  <div className="grid md:grid-cols-2 gap-4 text-sm">
-                    <div>
-                      <p><strong>Purpose:</strong> {mou.purpose}</p>
-                      <p><strong>Duration:</strong> {mou.duration}</p>
+                    <div className="grid md:grid-cols-2 gap-4 text-sm">
+                      <div>
+                        <p><strong>Purpose:</strong> {mou.purpose}</p>
+                        <p><strong>Duration:</strong> {mou.duration}</p>
+                      </div>
+                      <div>
+                        <p><strong>Contact:</strong> {mou.contact}</p>
+                        <p className="flex items-center gap-1">
+                          <Calendar className="h-3 w-3" />
+                          <strong>Signed/Submitted:</strong>{" "}
+                          {new Date(mou.submittedDate || "").toLocaleDateString()}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <p><strong>Contact:</strong> {mou.contact}</p>
-                      <p className="flex items-center gap-1">
-                        <Calendar className="h-3 w-3" />
-                        <strong>Submitted:</strong>{" "}
-                        {new Date(mou.submittedDate || "").toLocaleDateString()}
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))
-            ) : (
-              <p className="text-sm text-muted-foreground">No MoUs found.</p>
-            )}
+                  </motion.div>
+                ))
+              ) : (
+                <p className="text-sm text-muted-foreground">No MoUs found.</p>
+              );
+            })()}
           </CardContent>
         </Card>
+
+        {/* ---------- Detailed MoU Info Dialog ---------- */}
+        <Dialog open={selectedMoU !== null} onOpenChange={(open) => !open && setSelectedMoU(null)}>
+          <DialogContent className="max-w-2xl bg-background border rounded-2xl shadow-lg p-6 overflow-y-auto max-h-[90vh]">
+            {selectedMoU && (
+              <>
+                <DialogHeader className="border-b pb-4 mb-4">
+                  <div className="flex justify-between items-start">
+                    <div>
+                      <DialogTitle className="text-2xl font-bold text-foreground">
+                        {selectedMoU.organization}
+                      </DialogTitle>
+                      <DialogDescription className="text-sm text-muted-foreground mt-1">
+                        {selectedMoU.type}
+                      </DialogDescription>
+                    </div>
+                    <Badge className="text-green-600 border border-green-200 bg-green-50 self-start">
+                      <CheckCircle className="h-4 w-4 mr-1 inline-block" />
+                      ACTIVE AGREEMENT
+                    </Badge>
+                  </div>
+                </DialogHeader>
+
+                <div className="space-y-6">
+                  <div>
+                    <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+                      Purpose & Objectives
+                    </h4>
+                    <p className="text-sm text-foreground bg-muted/30 p-3 rounded-lg border leading-relaxed">
+                      {selectedMoU.purpose}
+                    </p>
+                  </div>
+
+                  {selectedMoU.benefits && (
+                    <div>
+                      <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
+                        Mutual Expected Benefits
+                      </h4>
+                      <p className="text-sm text-foreground bg-muted/30 p-3 rounded-lg border leading-relaxed">
+                        {selectedMoU.benefits}
+                      </p>
+                    </div>
+                  )}
+
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="bg-muted/20 p-4 rounded-xl border space-y-2">
+                      <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
+                        Collaboration Period
+                      </h4>
+                      <div className="text-sm">
+                        <p><strong>Duration:</strong> {selectedMoU.duration}</p>
+                        <p className="flex items-center gap-1 mt-1 text-muted-foreground text-xs">
+                          <Calendar className="h-3.5 w-3.5" />
+                          Signed: {new Date(selectedMoU.submittedDate || "").toLocaleDateString()}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="bg-muted/20 p-4 rounded-xl border space-y-2">
+                      <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
+                        Contact & Coordinator
+                      </h4>
+                      <div className="text-sm">
+                        <p><strong>Email:</strong> {selectedMoU.contact}</p>
+                        <p className="flex items-center gap-1 mt-1 text-muted-foreground text-xs">
+                          <Users className="h-3.5 w-3.5" />
+                          Coordinator: {selectedMoU.submittedBy || "Institutional Representative"}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+          </DialogContent>
+        </Dialog>
       </motion.div>
     </div>
   );

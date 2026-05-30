@@ -105,9 +105,9 @@ const FacultyDashboard = () => {
             <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-6 text-center border border-white/20 shadow-glow min-w-[120px]">
               <QrCode className="w-10 h-10 mx-auto mb-3 text-white animate-pulse" />
               <p className="text-xs font-semibold uppercase tracking-wider text-white/60">Attendance</p>
-              <Button variant="secondary" size="sm" className="mt-2 font-black uppercase text-[10px] tracking-widest shadow-lg">
+              <Link to={"/qr-attendance"}><Button variant="secondary" size="sm" className="mt-2 font-black uppercase text-[10px] tracking-widest shadow-lg">
                 Start Session
-              </Button>
+              </Button></Link>
             </div>
           </div>
         </div>

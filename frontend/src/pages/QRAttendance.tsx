@@ -18,53 +18,24 @@ const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:4000/api
 const QRAttendance = () => {
   const { toast } = useToast();
 
-  const [selectedSubject, setSelectedSubject] = useState("");
+  const [selectedSubject, setSelectedSubject] = useState("Data Structures");
   const [selectedSession, setSelectedSession] = useState("");
   const [duration, setDuration] = useState("60");
   const [qrToken, setQrToken] = useState<string | null>(null);
   const [expiresAt, setExpiresAt] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [subjects, setSubjects] = useState<string[]>(['Data Structures', 'Machine Learning', 'Database Systems', 'Algorithms']);
+  const [subjects, setSubjects] = useState<string[]>([
+    'Data Structures',
+    'Machine Learning',
+    'Database Systems',
+    'Algorithms',
+    'Software Engineering'
+  ]);
   const [livePresent, setLivePresent] = useState<any[]>([]);
   const [liveAbsent, setLiveAbsent] = useState<any[]>([]);
   const [activeSession, setActiveSession] = useState<{ id: string, secret: string } | null>(null);
 
   const token = localStorage.getItem("accessToken");
-
-  useEffect(() => {
-    const fetchSubjects = async () => {
-      try {
-        // First try to fetch the logged-in user profile to get their assigned subjects
-        const userRes = await fetch(`${API_BASE}/auth/me`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        if (userRes.ok) {
-          const userData = await userRes.json();
-          if (userData.role === "Faculty" && Array.isArray(userData.subjects) && userData.subjects.length > 0) {
-            setSubjects(userData.subjects);
-            setSelectedSubject(userData.subjects[0]);
-            return;
-          }
-        }
-
-        // Fallback to fetch all subjects from admin settings
-        const res = await fetch(`${API_BASE}/admin/subjects`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
-        if (res.ok) {
-          const data = await res.json();
-          if (Array.isArray(data) && data.length > 0) {
-            const mapped = data.map((s: any) => s.name);
-            setSubjects(mapped);
-            setSelectedSubject(mapped[0]);
-          }
-        }
-      } catch (err) {
-        console.error("Failed to fetch subjects:", err);
-      }
-    };
-    fetchSubjects();
-  }, [token]);
 
   const todaysSessions = [
     {

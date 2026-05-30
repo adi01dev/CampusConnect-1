@@ -75,7 +75,7 @@ const Assignments = () => {
       if (res.ok) {
         toast({ title: "Success", description: "Assignment created" });
         setShowCreateForm(false);
-        setFormData({ title: "", subject: "", dueDate: "", totalMarks: "", instructions: "" }); // Reset form
+        setFormData({ title: "", subject: "Data Structures", dueDate: "", totalMarks: "", instructions: "" }); // Reset form
         fetchAssignments();
       } else {
         toast({ title: "Error", description: data.message, variant: "destructive" });
