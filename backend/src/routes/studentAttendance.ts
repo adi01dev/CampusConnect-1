@@ -97,8 +97,8 @@ router.post("/mark", authenticate, requireRole("Student"), rateLimiter(100, 15 *
     }
 
     // 7. Time Window & Delay Validation
-    const GRACE_WINDOW = 3000; // 3 seconds
-    const QR_LIFETIME = 15000; // 15 seconds
+    const GRACE_WINDOW = 10000; // 3 seconds
+    const QR_LIFETIME = 45000; // 15 seconds
     const scanTime = Date.now();
 
     // Reject physically impossible scan delays
